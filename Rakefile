@@ -42,3 +42,14 @@ task "db:yolo" do
   ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
 end
 end
+
+desc "Rake Console"
+task "console" do
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  Dir[File.join(File.dirname(__FILE__), 'app/models/*.rb')].each do |model_file|
+    require model_file
+  end
+  require 'irb'
+  ARGV.clear
+  IRB.start
+end

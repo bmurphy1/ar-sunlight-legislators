@@ -1,6 +1,9 @@
 require 'csv'
 require_relative '../db/config'
 require_relative '../app/models/legislator'
+require_relative '../app/models/title'
+require_relative '../app/models/state'
+require_relative '../app/models/Party'
 
 class SunlightLegislatorsImporter
   @attributes = ["firstname", "middlename", "lastname", "name_suffix", "gender", "phone", "fax", "website", "twitter_id", "birthdate"]
@@ -11,8 +14,14 @@ class SunlightLegislatorsImporter
       row.each do |field, value|
         # TODO: begin
         if field == "title"
+          t = Title.find_or_create_by(name: value)
+          data[:title] = t
         elsif field == "state"
+          s = State.find_or_create_by(name: value)
+          data[:state] = s
         elsif field == "party"
+          p = Party.find_or_create_by(name: value)
+          data[:party] = p
         elsif @attributes.include?(field)
           data[field.to_sym] = value
         end
