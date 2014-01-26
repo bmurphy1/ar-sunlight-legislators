@@ -1,4 +1,8 @@
 require_relative '/models/'
 
-State.all.each do |state|
-  state.
+s = State.find_by(name: 'CA')
+s.legislators.where('title = ?')
+
+
+
+# Legislator.joins(:state).joins(:title).where('states.name' => 'CA', 'titles.name' => 'Sen')
